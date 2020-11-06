@@ -45,13 +45,13 @@ object Arbitrary {
   val interestingStrings = Vector("", "a", "z", "\n", "0", "_", "\"", "\'", " ", "abcdefghijklmnopqrstuvwxyz")
   implicit def string: Arbitrary[String] = (seed, n) => interestingStrings.lift(n).getOrElse {
     val chars = seed.stream(n).last.stream(10).map(_()).map(_.toByte).filter { c => c > 31 && c < 128 }
-    new String(chars.to[Array], "UTF-8")
+    new String(chars.toArray, "UTF-8")
   }
 
   implicit def gen[T]: Arbitrary[T] = macro Magnolia.gen[T]
 
   private def spread(seed: Seed, total: Int, count: Int): List[Int] = {
-    val sample = seed.stream(count).map(_.value.toDouble).map(math.abs(_)).to[List]
+    val sample = seed.stream(count).map(_.value.toDouble).map(math.abs(_)).toList
     sample.tails.foldLeft(List[Int]()) { case (acc, tail) => tail.headOption.fold(acc) { v =>
       (((v/(tail.sum))*(total - acc.sum)) + 0.5).toInt :: acc
     } }

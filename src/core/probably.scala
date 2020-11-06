@@ -83,7 +83,7 @@ class Runner(specifiedTests: Set[TestId] = Set()) extends Dynamic {
                        (name: (String, String), args: (String, Showable[_])*)
                        (fn: => T)
                        : Test { type Type = T } =
-    new Test(name._2, args.toMap.mapValues(_())) {
+    new Test(name._2, args.toMap.mapValues(_()).toMap) {
       type Type = T
       def action(): T = fn
     }
@@ -138,7 +138,7 @@ class Runner(specifiedTests: Set[TestId] = Set()) extends Dynamic {
     }
   }
 
-  def report(): Report = Report(results.values.to[List])
+  def report(): Report = Report(results.values.toList)
 
   def clear(): Unit = results = emptyResults()
 

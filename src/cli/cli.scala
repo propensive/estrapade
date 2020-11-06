@@ -31,7 +31,7 @@ object Suite {
   private val legend: List[String] = statuses.zip(List("Pass", "Fail", "Throws in check",
       "Throws in body", "Fails sometimes", "Suite partially fails")).map { case (status, description) =>
     s"${status} ${description.padTo(32, ' ')}"
-  }.to[List]
+  }.toList
 
   val footer: String = legend.grouped(2).map(_.mkString("  ")).mkString("\n", "\n", "\n")
   
@@ -74,7 +74,7 @@ abstract class Suite(val name: String) extends TestSuite {
   def run(test: Runner): Unit
   
   final def main(args: Array[String]): Unit = {
-    val test = new Runner(args.map(TestId(_)).to[Set])
+    val test = new Runner(args.map(TestId(_)).toSet)
     run(test)
     val report = test.report()
     println(Suite.show(report))

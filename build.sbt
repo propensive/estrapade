@@ -1,4 +1,4 @@
-ThisBuild / scalaVersion := "2.12.12"
+ThisBuild / scalaVersion := "2.13.3"
 ThisBuild / organization := "com.propensive"
 ThisBuild / organizationName := "Propensive OÜ"
 ThisBuild / organizationHomepage := Some(url("https://propensive.com/"))
@@ -44,7 +44,7 @@ lazy val property = (project in file(".property"))
     name := "probably-property",
     Compile / scalaSource := baseDirectory.value / ".." / "src" / "property",
     libraryDependencies += "com.propensive" %% "magnolia" % "0.17.0",
-    libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.12" % Provided
+    libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.13.3" % Provided
   )
 
 lazy val cli = (project in file(".cli"))
