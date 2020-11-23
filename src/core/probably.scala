@@ -17,7 +17,7 @@
 package probably
 
 import scala.util._
-import scala.collection.immutable.ListMap
+import scala.collection._, immutable.ListMap
 import scala.util.control.NonFatal
 
 import language.dynamics
@@ -69,7 +69,6 @@ object Runner {
     md.digest.take(3).map(b => f"$b%02x").mkString
   }
 }
-
 
 class Runner(specifiedTests: Set[TestId] = Set()) extends Dynamic {
 
