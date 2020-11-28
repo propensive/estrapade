@@ -53,8 +53,8 @@ lazy val cli = (project in file(".cli"))
     name := "probably-cli",
     Compile / scalaSource := baseDirectory.value / ".." / "src" / "cli",
     libraryDependencies += "com.propensive" %% "escritoire-core" % "0.3.0",
-    libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.12" % Provided,
-    libraryDependencies += "org.scala-lang" % "scala-compiler" % "2.12.12" % Provided
+    libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.13.3" % Provided,
+    libraryDependencies += "org.scala-lang" % "scala-compiler" % "2.13.3" % Provided
   )
 
 lazy val test = (project in file(".test"))

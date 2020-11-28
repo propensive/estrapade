@@ -103,7 +103,7 @@ class Runner(specifiedTests: Set[TestId] = Set()) extends Dynamic {
     }.check(_.results.forall(_.outcome.passed))
 
     if(report.results.exists(_.outcome.passed) && report.results.exists(_.outcome.failed))
-      synchronized { results = results.updated(name, results(name).copy(outcome = Mixed)) }
+      synchronized { results += name -> results(name).copy(outcome = Mixed) }
 
     report.results.foreach { result => record(result.copy(indent = result.indent + 1)) }
   }
@@ -142,11 +142,11 @@ class Runner(specifiedTests: Set[TestId] = Set()) extends Dynamic {
   def clear(): Unit = results = emptyResults()
 
   protected def record(test: Test, duration: Long, datapoint: Datapoint): Unit = synchronized {
-    results = results.updated(test.name, results(test.name).append(test.name, duration, datapoint))
+    results += test.name -> results(test.name).append(test.name, duration, datapoint)
   }
 
   protected def record(summary: Summary) = synchronized {
-    results = results.updated(summary.name, summary)
+    results += summary.name -> summary
   }
 
   private[this] def emptyResults(): Map[String, Summary] = ListMap[String, Summary]().withDefault { name =>
