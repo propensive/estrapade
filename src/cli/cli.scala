@@ -1,6 +1,6 @@
 /*
 
-    Probably, version 0.4.0. Copyright 2017-20 Jon Pretty, Propensive OÜ.
+    Probably, version 0.8.0. Copyright 2017-20 Jon Pretty, Propensive OÜ.
 
     The primary distribution site is: https://propensive.com/
 
@@ -49,8 +49,8 @@ object Suite {
 
     implicit val showOutcome: AnsiShow[Outcome] = _ match {
       case Passed                                    => pass
-      case FailsAt(Fail(map), 1)                     => fail
-      case FailsAt(ThrowsInCheck(exception, map), n) => checkThrows
+      case FailsAt(Fail(map, _), 1)                  => fail
+      case FailsAt(ThrowsInCheck(_, _, _), n)        => checkThrows
       case FailsAt(Throws(exception, map), 1)        => throws
       case FailsAt(_, n)                             => tailFail
       case Mixed                                     => mixed
