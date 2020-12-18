@@ -116,7 +116,14 @@ class Runner(specifiedTests: Set[TestId] = Set()) extends Dynamic {
     def assert(predicate: Type => Boolean): Unit =
       try if(runTest(id)) check(predicate) catch { case NonFatal(e) => () }
     
-    def check(predicate: Type => Boolean): Type = {
+    def status(predicate: Type => Boolean): Datapoint = run(predicate) match { case (datapoint, _) => datapoint }
+
+    def check(predicate: Type => Boolean): Type = run(predicate) match {
+      case (Throws(exception, _), value) => throw exception
+      case (datapoint, value)            => value
+    }
+
+    private def run(predicate: Type => Boolean): (Datapoint, Type) = {
       val t0 = System.currentTimeMillis()
       val value = Try(action())
       val time = System.currentTimeMillis() - t0
@@ -126,10 +133,14 @@ class Runner(specifiedTests: Set[TestId] = Set()) extends Dynamic {
           def handler: PartialFunction[Throwable, Datapoint] = { case e: Exception => ThrowsInCheck(e, map) }
           val datapoint: Datapoint = try(if(predicate(value)) Pass else Fail(map)) catch handler
           record(this, time, datapoint)
-          value
+          
+          (datapoint, value)
+
         case Failure(exception) =>
-          record(this, time, Throws(exception, map))
-          throw exception
+          val datapoint = Throws(exception, map)
+          record(this, time, datapoint)
+          
+          (datapoint, null.asInstanceOf[Type])
       }
     }
   }
@@ -142,9 +153,8 @@ class Runner(specifiedTests: Set[TestId] = Set()) extends Dynamic {
     results = results.updated(test.name, results(test.name).append(test.name, duration, datapoint))
   }
 
-  protected def record(summary: Summary) = synchronized {
-    results = results.updated(summary.name, summary)
-  }
+  protected def record(summary: Summary) =
+    synchronized { results = results.updated(summary.name, summary) }
 
   private[this] def emptyResults(): Map[String, Summary] = ListMap[String, Summary]().withDefault { name =>
     Summary(TestId(name.digest[Sha256].encoded[Hex].take(6).toLowerCase), name, 0, Int.MaxValue, 0L,

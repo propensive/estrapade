@@ -7,6 +7,8 @@
 
 <img src="/doc/images/github.png" valign="middle">
 
+[![Build](https://github.com/propensive/probably/workflows/Build/badge.svg)](https://github.com/propensive/probably/actions)
+
 # Probably
 
 __Probably__ is a testing library designed to unintrusively provide test recording and reporting capabilities to any codebase, regardless of the users&rsquo; choices of libraries or programming paradigms. __Probably__ can define and run unit tests and property tests. Its syntax is simple and unexciting, and its execution model has zero magic: it&rsquo;s the same as for any other program.
@@ -214,7 +216,11 @@ or imported into an existing layer with,
 ```
 fury layer import -i propensive/probably
 ```
-A binary will be made available on Maven Central.
+A binary is available on Maven Central as `com.propensive:probably_<scala-version>:0.4.0`. This may be added
+to an [sbt](https://www.scala-sbt.org/) build with:
+```
+libraryDependencies += "com.propensive" %% "probably-cli" % "0.4.0"
+```
 
 ## Contributing
 
