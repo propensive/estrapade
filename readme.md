@@ -242,5 +242,5 @@ training is available from [Propensive O&Uuml;](https://propensive.com/).
 
 ## License
 
-Probably is copyright &copy; 2017-20 Jon Pretty & Propensive O&Uuml;, and is made available under the
+Probably is copyright &copy; 2017-21 Jon Pretty & Propensive O&Uuml;, and is made available under the
 [Apache 2.0 License](/license.md).
